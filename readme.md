@@ -14,177 +14,207 @@
          Powered by Advanced C++ Architecture
 ```
 
-**A Professional C++ Financial Simulation with Production-Grade OOPS Architecture**
+**A Professional C++ Financial Simulation built on Production-Grade Object-Oriented Architecture**
 
-> This project was developed as a comprehensive **College Presentation Project** for the Object-Oriented Programming (OOPS) curriculum at **IILM University**. It serves as a bridge between theoretical syllabus concepts and real-world enterprise software engineering practices, demonstrating mastery of core computer science principles.
+> Titan Banking Suite is a console-based financial terminal that bridges the gap between theoretical OOP concepts and real-world software engineering. It demonstrates clean class design, persistent state management, role-based access control, and localized currency handling — the same principles that underpin enterprise banking systems.
 
 ---
 
 ## 📋 Table of Contents
 - [🎯 Overview](#-overview)
-- [🏗️ Core OOPS Concepts](#-core-oops-concepts)
+- [🏗️ Core OOP Concepts](#-core-oop-concepts)
+- [⚙️ Key Functions & Implementation](#-key-functions--implementation)
 - [✨ Advanced Features](#-advanced-features)
 - [📂 System Architecture](#-system-architecture)
 - [🚀 Getting Started](#-getting-started)
-- [🔐 User Access Credentials](#-user-access-credentials)
-- [💡 Technical Implementation](#-technical-implementation)
-- [⚙️ Configuration & Setup](#-configuration--setup)
+- [🔐 Access Credentials](#-access-credentials)
 - [📊 Project Statistics](#-project-statistics)
+- [🔮 Future Features](#-future-features)
 - [👥 Team & Credits](#-team--credits)
 
 ---
 
 ## 🎯 Overview
 
-**Titan Banking Suite** is a high-performance, console-based banking terminal that simulates real-world financial operations. Unlike standard academic projects, Titan implements **persistent state management**, **role-based access control**, **sophisticated error handling**, and **regional currency localization**—mirroring enterprise banking systems.
+**Titan Banking Suite** is a high-performance, console-based banking terminal that simulates real-world financial operations. It implements **persistent state management**, **role-based access control**, **sophisticated error handling**, and **regional currency localization** — going well beyond a standard academic demo.
 
 ### Key Highlights
 - ✅ **100+ Customer Account Management** with concurrent operation support
-- ✅ **Persistent Data Storage** using file-based serialization (titan_db.txt)
-- ✅ **Admin Console** with hidden root access for system audits
-- ✅ **Multi-currency Support** with Indian Rupee localization (Lakhs/Crores formatting)
-- ✅ **Secure Authentication** with real-time password masking
-- ✅ **Transaction History** tracking with comprehensive audit logs
-- ✅ **Comprehensive Input Validation** preventing system crashes and buffer overflows
+- ✅ **Persistent Data Storage** via file-based serialization (`titan_db.txt`)
+- ✅ **Admin Root Console** with hidden privileged access for system audits
+- ✅ **Indian Rupee Localization** with Lakhs/Crores formatting via custom `sstream` logic
+- ✅ **Secure Authentication** with real-time PIN masking using `<conio.h>`
+- ✅ **Defensive Input Validation** preventing crashes, infinite loops, and buffer issues
+- ✅ **Array of Objects** database simulation for multi-account management
 
 ---
 
-## 🏗️ Core OOPS Concepts
+## 🏗️ Core OOP Concepts
 
-This project is a **comprehensive implementation** of IILM University's C++ OOPS Syllabus, demonstrating mastery of fundamental and advanced concepts:
-
-### 📌 **Module 3: Object-Oriented Programming Fundamentals**
-
-#### 1️⃣ **Classes & Objects**
+### 1️⃣ Classes & Objects
 ```cpp
 class BankAccount {
-    // Object encapsulating account data and behavior
-    // Each customer represented as a discrete object
+    // Blueprint for every customer account in the system
+    // Each user is instantiated as a discrete, independent object
 };
 ```
-- **Implementation**: The `BankAccount` class models real-world bank accounts with attributes (balance, PIN, account holder name) and methods (withdraw, deposit, transfer)
-- **Why It Matters**: Demonstrates how real-world entities map to software constructs
+The `BankAccount` class models a real-world bank account — binding together data (balance, PIN, account holder) and behaviour (deposit, withdraw, authenticate) into a single, coherent unit. Every customer in the system is a **live instance** of this class.
 
-#### 2️⃣ **Encapsulation (Data Hiding)**
+---
+
+### 2️⃣ Encapsulation
 ```cpp
 private:
     double balance;        // Protected from unauthorized access
-    string PIN;            // Sensitive credential isolation
-    string accountHolder;  // User data protection
-    
+    string pin;            // Sensitive credential — never exposed
+    string accountHolder;  // User data isolation
+
 public:
-    bool authenticateUser(string pin);  // Controlled access gateway
-    void withdraw(double amount);       // Protected operation
+    bool authenticate(string inputPin);  // Controlled access gateway
+    void deposit(double amount);         // Safe, validated operation
+    void withdraw(double amount);        // Enforces business rules
 ```
-- **Purpose**: Critical banking data (balance, PIN) is **`private`**, accessible only through carefully controlled public methods
-- **Security Benefit**: Prevents direct memory manipulation and enforces business logic (e.g., cannot withdraw negative amounts)
-- **Real-World Application**: Banks use similar patterns to prevent unauthorized balance modifications
-
-#### 3️⃣ **Abstraction (Information Hiding)**
-- **Password Masking**: Complex terminal manipulation using `<conio.h>` is hidden behind `getMaskedInput()` function
-- **Currency Formatting**: Intricate Indian numbering system (Rupees → Lakhs → Crores) is abstracted into `formatCurrency()`
-- **File I/O**: Database serialization/deserialization is hidden from user-facing code
-- **Benefit**: Users interact with simple interfaces while complex operations work seamlessly behind the scenes
-
-#### 4️⃣ **Inheritance & Polymorphism** *(Architecture Ready)*
-- **Base Class Structure**: Foundation laid for future `AccountType` hierarchy (Savings, Current, Salary accounts)
-- **Extensibility**: New account types can override behavior without modifying core system
-- **Scalability**: Demonstrates design patterns used in production banking software
-
-### 📌 **Module 5: File Handling & Persistence**
-
-#### 🗂️ **File Stream Operations**
-```cpp
-fstream accountDB;
-accountDB.open("titan_db.txt", ios::in | ios::out | ios::binary);
-// Read-write binary access for fast serialization
-```
-- **Persistent State**: All account data survives program termination
-- **Serialization Format**: Custom binary format optimized for speed and data integrity
-- **Error Handling**: Comprehensive file operation error checking prevents data corruption
-
-#### 💾 **Data Persistence Workflow**
-1. **Program Start**: Load all accounts from `titan_db.txt` into memory array
-2. **User Operations**: Transactions modify in-memory objects
-3. **Program Exit**: Flush all changes back to disk
-4. **Recovery**: System can reconstruct state from persistent storage
-
-### 📌 **Array of Objects (Database Simulation)**
-```cpp
-BankAccount accounts[100];  // Array of 100 independent objects
-// Simulates relational database with fixed schema
-```
-- **Capacity**: Manages up to 100 customer accounts simultaneously
-- **Access Pattern**: Index-based retrieval mirrors database primary key lookups
-- **Memory Model**: Fixed-size allocation demonstrates resource planning
-- **Search Algorithm**: Linear/binary search patterns for account lookup
-
-### 📌 **Data Abstraction & Type Systems**
-- **Struct Design**: Custom types for transactions, audit logs, currency representation
-- **Enum States**: Account status (Active, Suspended, Closed) using enumeration
-- **Type Safety**: Prevents mixing incompatible data types (e.g., currency with person name)
+Critical data is locked behind `private` access modifiers. External code **cannot** directly touch a user's balance or PIN — it must go through authenticated public methods. This enforces business logic at the class level (e.g., no negative withdrawals, no unauthenticated balance reads).
 
 ---
 
-## ✨ Advanced Features
+### 3️⃣ Data Abstraction
+The system exposes simple interfaces while hiding complex mechanics:
+- `getMaskedPin()` — hides terminal manipulation behind a single clean call
+- `formatCurrency()` — abstracts the full Indian numbering algorithm (Rupees → Thousands → Lakhs → Crores)
+- `saveDatabase()` / `loadDatabase()` — hides all file stream logic from the user-facing menu code
 
-Beyond syllabus requirements, Titan implements enterprise-grade capabilities:
+Users interact with a straightforward menu. The machinery running beneath it is invisible.
 
-### 🔒 **Secure Authentication**
+---
+
+### 4️⃣ Array of Objects
 ```cpp
-// Real-time password masking using conio.h
-// Prevents shoulder-surfing attacks
-```
-- **Feature**: Characters replaced with `*` during PIN entry
-- **Library**: Uses `<conio.h>` (Windows-specific) for console input manipulation
-- **Security**: Protects credentials even when system is visible to observers
+BankAccount accounts[100];  // 100 independent customer objects in memory
+int totalAccounts = 0;       // Tracks active count
 
-### 🛡️ **Defensive Input Validation**
+// Accessing a specific object's method via index
+accounts[i].deposit(amount);
+accounts[i].authenticate(pin);
+```
+The system uses a **static array of `BankAccount` objects** to simulate an in-memory database. Index-based access mirrors how database systems use primary keys for lookups.
+
+---
+
+### 5️⃣ Inheritance & Polymorphism *(Architecture Ready)*
+The class structure is designed for extension:
+- A base `BankAccount` class can be inherited by `SavingsAccount`, `CurrentAccount`, and `SalaryAccount`
+- Virtual functions allow each subclass to override transaction behaviour without touching core logic
+- This is the standard design pattern used in production banking software
+
+---
+
+## ⚙️ Key Functions & Implementation
+
+### `createAccount()`
+Registers a new user — validates name, assigns a system-generated account number, accepts an initial deposit, and appends the new object to the active array.
+
+---
+
+### `authenticate(string inputPin)`
+```cpp
+bool BankAccount::authenticate(string inputPin) {
+    return (pin == inputPin);  // Direct string comparison
+}
+```
+Validates user credentials before any sensitive operation. Every deposit, withdrawal, and balance check is gated behind this function.
+
+---
+
+### `deposit(double amount)` / `withdraw(double amount)`
+Mutate the private `balance` field of a specific object. `withdraw()` includes an **Insufficient Funds** guard — if `amount > balance`, the operation is rejected and an error is displayed rather than allowing the balance to go negative.
+
+---
+
+### `getMaskedPin()`
+```cpp
+string getMaskedPin() {
+    string p = "";
+    char ch;
+    while ((ch = _getch()) != '\r') {
+        if (p.length() > 0 && ch == '\b') { p.pop_back(); cout << "\b \b"; }
+        else { p += ch; cout << '*'; }
+    }
+    return p;
+}
+```
+Uses `<conio.h>` to intercept raw keystrokes and replace each character with `*` in real time. Supports backspace correction. **Note:** `_getch()` is Windows-specific — a `termios.h` implementation would be used for POSIX/Linux portability.
+
+---
+
+### `saveDatabase()` / `loadDatabase()`
+```cpp
+void saveDatabase(BankAccount accounts[], int total) {
+    ofstream outFile("titan_db.txt");
+    outFile << total << endl;
+    for (int i = 0; i < total; i++) {
+        outFile << accounts[i].getAccountNumber() << " "
+                << accounts[i].getPin() << " "
+                << fixed << setprecision(2) << accounts[i].getBalance() << " "
+                << accounts[i].getAccountHolder() << endl;
+    }
+    outFile.close();
+}
+```
+Serializes the entire object array to a flat text file on exit, and reconstructs all objects from it on startup. This gives the system **persistent state across reboots** — a core requirement of any real banking system.
+
+---
+
+### `getValidInt()` / `getValidDouble()`
 ```cpp
 int getValidInt() {
     int value;
     while (!(cin >> value) || cin.fail()) {
-        cin.clear();              // Clear error flag
-        cin.ignore(10000, '\n');  // Remove invalid characters
+        cin.clear();
+        cin.ignore(10000, '\n');
         cout << "Invalid input. Try again: ";
     }
     return value;
 }
 ```
-- **Problem Solved**: Invalid input no longer crashes program or causes infinite loops
-- **Robustness**: Handles edge cases (negative numbers, text input, buffer overflow)
-- **User Experience**: Provides helpful retry prompts instead of cryptic errors
+Defensive input wrappers that prevent the program from crashing or entering an infinite loop on bad input (letters, symbols, overflow values). All user-facing input goes through these functions.
 
-### 💵 **Indian Currency Localization**
-```
-Balance Display: Rs. 25,47,850.50
-               (25 Lakhs, 47 Thousands, 850 Rupees, 50 Paise)
-```
-- **Custom Formatting**: Implements Indian numbering system (Lakhs = 100,000; Crore = 10,000,000)
-- **Display Logic**: Custom string stream parsing rather than library functions
-- **Cultural Relevance**: Demonstrates localization for non-Western markets
+---
 
-### 🔑 **Administrative Console (Hidden Root Access)**
+### `formatCurrency(double amount)`
+Converts a raw `double` into Indian-formatted currency using `stringstream`:
 ```
-Access Level: ROOT
-└─ System Liquidity Audit
-└─ Master Account Override
-└─ Database Integrity Check
-└─ User Management
+Input:  2547850.50
+Output: Rs. 25,47,850.50
 ```
-- **Credentials**: Hidden backdoor (Admin ID: `AIX`, PIN: `0219`)
-- **Purpose**: System administrators can audit total system liquidity without user account knowledge
-- **Security Model**: Separate authentication layer for privileged operations
+Implements the Indian numbering convention (last 3 digits, then groups of 2) without relying on locale libraries.
 
-### 📝 **Transaction History & Audit Logs**
-- **Per-Account Tracking**: Every transaction recorded with timestamp
-- **Audit Trail**: Complete history prevents fraud disputes
-- **Compliance**: Meets banking industry audit requirements
+---
 
-### ⚡ **Real-Time State Management**
-- **In-Memory Operations**: Fast access with immediate feedback
-- **Atomic Transactions**: Prevents partial updates corruption
-- **Consistency Checks**: Balance verification prevents data anomalies
+### Admin Root Console
+```
+Access: Hidden menu option (choice == 0)
+Admin ID: AIX  |  Root PIN: 0219
+
+└─ View System Liquidity & Stats
+└─ View Complete Account Ledger
+└─ Terminate Root Session
+```
+A privileged console that iterates through the entire `accounts[]` array to compute total system liquidity and display a full ledger — accessible only after a second authentication layer.
+
+---
+
+## ✨ Advanced Features
+
+| Feature | Detail |
+|---|---|
+| **PIN Masking** | Real-time `*` substitution via `_getch()` with backspace support |
+| **Insufficient Funds Guard** | Withdrawal rejection with error message before any balance mutation |
+| **Indian Currency Formatting** | Custom Lakhs/Crores formatter using `sstream` |
+| **Role-Based Access** | Separate user and root authentication flows |
+| **Persistent Storage** | Full object array serialized to `titan_db.txt` on exit |
+| **Input Validation** | Type-safe wrappers on all user-facing input |
+| **Account Deletion** | Removes object from array and shifts remaining entries |
 
 ---
 
@@ -194,35 +224,45 @@ Access Level: ROOT
 ┌─────────────────────────────────────────────────────┐
 │         USER INTERFACE LAYER (Console)              │
 │  ┌──────────────────────────────────────────────┐   │
-│  │  Login Module  │  Transaction Module         │   │
-│  │  Menu System   │  Reporting Module           │   │
+│  │  Login Flow   │  Transaction Menu            │   │
+│  │  Main Menu    │  Admin Root Console          │   │
 │  └──────────────────────────────────────────────┘   │
 └────────────────┬────────────────────────────────────┘
                  │
 ┌────────────────▼────────────────────────────────────┐
-│      BUSINESS LOGIC LAYER (Core Banking)            │
+│      BUSINESS LOGIC LAYER (BankAccount Class)       │
 │  ┌──────────────────────────────────────────────┐   │
-│  │  BankAccount Class                           │   │
-│  │  • Deposit/Withdraw Operations               │   │
-│  │  • Balance Management                        │   │
-│  │  • Transaction Processing                    │   │
+│  │  deposit() / withdraw()                      │   │
+│  │  authenticate()                              │   │
+│  │  formatCurrency()                            │   │
+│  │  getMaskedPin()                              │   │
 │  └──────────────────────────────────────────────┘   │
 └────────────────┬────────────────────────────────────┘
                  │
 ┌────────────────▼────────────────────────────────────┐
-│      DATA ACCESS LAYER (Persistence)                │
+│      DATA LAYER (File Persistence)                  │
 │  ┌──────────────────────────────────────────────┐   │
-│  │  File I/O Operations (fstream)               │   │
-│  │  Array of Objects Database                   │   │
-│  │  Serialization/Deserialization               │   │
+│  │  saveDatabase()   →  titan_db.txt            │   │
+│  │  loadDatabase()   ←  titan_db.txt            │   │
 │  └──────────────────────────────────────────────┘   │
-└────────────────┬────────────────────────────────────┘
-                 │
-                 ▼
-         ┌──────────────────┐
-         │  titan_db.txt    │
-         │  (Persistent DB) │
-         └──────────────────┘
+└─────────────────────────────────────────────────────┘
+```
+
+### Data Flow
+```
+Program Launch
+    │
+    ▼
+loadDatabase() ──→ Read titan_db.txt ──→ Populate accounts[100]
+    │
+    ▼
+User Authenticates ──→ authenticate() validates private PIN
+    │
+    ▼
+Transaction Executes ──→ deposit() / withdraw() mutates object state
+    │
+    ▼
+Program Exit ──→ saveDatabase() serializes full array to disk
 ```
 
 ---
@@ -230,284 +270,193 @@ Access Level: ROOT
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Compiler**: GCC/Clang with C++11 or later support
-- **IDE**: Visual Studio Code (recommended) or any C++ IDE
-- **Debugger**: GDB (for VS Code debugging)
-- **OS**: Windows (due to `<conio.h>` dependency) or Linux with conio library
+```
+- Windows OS (primary — due to <conio.h> dependency)
+- GCC/MinGW compiler (C++11 or later)
+- VS Code with C/C++ extension (recommended)
+```
 
-### Installation & Execution
-
-#### Option 1: Using VS Code with GDB Debugger
+### Compile & Run
 ```bash
-# 1. Clone/download the project
-cd "x:\GITHUB\SIMPLE BANK"
+# Compile
+g++ Titan_Banking_Suite.cpp -o titan -std=c++11
 
-# 2. Compile the program
-g++ -o TITAN_BANKING_SUITE.exe Titan_Banking_Suite.cpp -std=c++11
-
-# 3. Run the program
-./TITAN_BANKING_SUITE.exe
+# Run
+./titan
 ```
 
-#### Option 2: Direct Execution
-```bash
-# Simply double-click TITAN_BANKING_SUITE.exe
-```
-
-### Configuration (.vscode/launch.json)
-The included configuration automatically:
-- ✅ Uses GDB debugger for C++ debugging
-- ✅ Executes in external terminal (required for `system("cls")` and `<conio.h>`)
-- ✅ Sets working directory to project folder (ensures `titan_db.txt` is found)
-
-```json
-{
-    "configurations": [
-        {
-            "name": "Titan Banking Suite",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/TITAN_BANKING_SUITE.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "externalConsole": true,
-            "MIMode": "gdb"
-        }
-    ]
-}
-```
+### First Run
+On first launch the system checks for `titan_db.txt`. If absent, it initializes a fresh database automatically. No manual setup required.
 
 ---
 
-## 🔐 User Access Credentials
+## 🔐 Access Credentials
 
-### Regular User Access
-```
-║ Account ID: 1-100 (Auto-assigned)
-║ PIN: User-defined (4-8 digits recommended)
-║ Default Test Account: ID=1, PIN=1234
-```
+| Role | ID | PIN |
+|---|---|---|
+| **Customer** | Account No. (assigned on registration) | 4-digit PIN (set by user) |
+| **System Admin** | `AIX` | `0219` |
 
-### Administrative Access (Hidden Root Console)
-```
-Main Menu → Option 9 (Admin Console)
-┌─────────────────────────────────┐
-│ Admin Login                      │
-│ Admin ID: AIX                    │
-│ Root PIN: 0219                   │
-└─────────────────────────────────┘
-```
-
-### Admin Capabilities
-- 🔍 View system-wide liquidity status
-- 🔧 Override account locks
-- 📊 Generate comprehensive audit reports
-- 🗂️ Database integrity verification
-
----
-
-## 💡 Technical Implementation
-
-### Key Algorithms
-
-#### 1. **Secure PIN Authentication**
-```cpp
-bool authenticateUser(string inputPin) {
-    // Time-constant comparison prevents timing attacks
-    // Prevents brute-force detection
-}
-```
-
-#### 2. **Binary Search for Account Lookup**
-```cpp
-// O(log n) complexity for retrieving account from 100 accounts
-// More efficient than linear search (O(n))
-```
-
-#### 3. **Currency Formatting Algorithm**
-```
-Input: 2547850.50
-Output: Rs. 25,47,850.50
-Logic:
-  • 2547850 ÷ 10000000 = 0 Crore
-  • 2547850 ÷ 100000 = 25 Lakh
-  • 47850 ÷ 1000 = 47 Thousand
-  • 850 = 850 Rupee
-```
-
-### Memory Management
-```
-Total Memory Footprint:
-├─ Array of 100 BankAccount objects
-├─ Each object: ~200 bytes (string overhead varies)
-├─ Transaction history per account
-└─ Total: ~50-100 KB (negligible by modern standards)
-```
-
-### File Format (titan_db.txt)
-```
-Binary Format (Sequential Records):
-┌──────────────┬──────────────┬───────────┬──────────────────┐
-│ Account ID   │ Account Name │ Balance   │ PIN Hash         │
-│ (int: 4B)    │ (string: 20B)│ (double:8B)│ (string: 32B)   │
-└──────────────┴──────────────┴───────────┴──────────────────┘
-```
-
----
-
-## ⚙️ Configuration & Setup
-
-### Environment Setup
-```bash
-# Windows with Visual Studio Code
-1. Install MinGW-w64 (GCC compiler)
-2. Install VS Code C++ extension
-3. Install GDB debugger
-4. Set PATH environment variable
-5. Create workspace folder
-
-# Linux
-sudo apt-get install build-essential gdb
-sudo apt-get install ncurses-dev  # conio alternative
-```
-
-### First-Time Initialization
-```
-Program automatically:
-1. Checks for titan_db.txt
-2. Creates database if missing
-3. Initializes 100 empty account slots
-4. Sets system time/date
-5. Begins interactive session
-```
-
-### Debug Execution (VS Code)
-```
-F5 → Launch Debugger
-CTRL+Shift+D → Debug Panel
-→ Set breakpoints
-→ Step through code
-→ Inspect variables
-```
+> ⚠️ Admin credentials are hardcoded for demonstration purposes. In a production system, these would be hashed and stored securely outside the source code.
 
 ---
 
 ## 📊 Project Statistics
 
 | Metric | Value |
-|--------|-------|
+|---|---|
 | **Language** | C++ (C++11 Standard) |
-| **Lines of Code** | ~2000+ LOC |
-| **Max Accounts** | 100 Concurrent Users |
-| **File Size** | ~15-50 KB (titan_db.txt) |
-| **Compilation Time** | <2 seconds |
-| **Memory Usage** | ~50-100 MB |
-| **Execution Mode** | Console-based Interactive |
-| **Platform** | Windows (Primary), Linux (Compatible) |
+| **Lines of Code** | ~2,000+ LOC |
+| **Max Accounts** | 100 concurrent objects |
+| **Database File** | `titan_db.txt` (~15–50 KB) |
+| **Compilation Time** | < 2 seconds |
+| **Memory Footprint** | ~50–100 KB (object array) |
+| **Platform** | Windows (Primary), Linux (Partial) |
+| **UI Mode** | Console-based interactive |
 
 ---
 
-## 🎓 OOPS Concepts Coverage
+## 🔮 Future Features
 
-| Concept | Status | Implementation |
-|---------|--------|-----------------|
-| Classes & Objects | ✅ Mastered | BankAccount class with full functionality |
-| Encapsulation | ✅ Mastered | Private/Public access modifiers |
-| Data Hiding | ✅ Mastered | Protected balance and PIN |
-| Abstraction | ✅ Mastered | Hidden complexity in utility functions |
-| Inheritance | ⚡ Prepared | Base class structure ready for AccountType hierarchy |
-| Polymorphism | ⚡ Prepared | Virtual functions designed for override capability |
-| Array of Objects | ✅ Mastered | accounts[100] database simulation |
-| File Handling | ✅ Mastered | fstream binary I/O operations |
-| Input Validation | ✅ Mastered | Buffer clearing and type checking |
-| Error Handling | ✅ Mastered | Comprehensive exception handling |
+The following features are planned for future versions of Titan Banking Suite:
+
+### 🔧 Technical Upgrades
+
+#### Cross-Platform PIN Masking
+Replace `<conio.h>` and `_getch()` with a `termios.h`-based implementation for full Linux and macOS compatibility. The masked input experience will remain identical — just portable.
+
+#### Dynamic Account Capacity
+Replace the fixed `BankAccount accounts[100]` array with a `std::vector<BankAccount>` to allow unlimited account creation without recompilation. Will include a configurable soft cap for resource control.
+
+#### Hashed Credential Storage
+Implement SHA-256 PIN hashing so credentials are never stored or compared in plaintext. Admin credentials will be moved from hardcoded values to an encrypted config file.
+
+#### Input Sanitisation on File Load
+Add field-level validation inside `loadDatabase()` — type checks, range guards, and a checksum line — to prevent crashes or data corruption if `titan_db.txt` is manually edited or partially corrupted.
+
+---
+
+### 🏦 Banking Features
+
+#### Fund Transfers Between Accounts
+Allow authenticated users to transfer a specified amount to another account number within the same system. Will include a confirmation step and double-debit protection.
+
+#### Transaction History Per Account
+Maintain a per-object log of every deposit, withdrawal, and transfer with a timestamp. Viewable from the user dashboard and exportable via the admin console.
+
+#### Account Freeze / Suspension
+Admin-controlled ability to freeze an account, preventing login and transactions without deleting the account record. Useful for fraud simulation scenarios.
+
+#### Interest Calculation Engine
+Add a `calculateInterest()` method that computes simple or compound interest based on account type (Savings vs. Current). Runs on admin-triggered cycle or at program startup.
+
+#### Account Type Hierarchy (Inheritance)
+Implement `SavingsAccount`, `CurrentAccount`, and `SalaryAccount` as subclasses of `BankAccount`. Each overrides transaction rules — e.g., savings accounts earn interest, current accounts allow overdrafts up to a limit.
+
+---
+
+### 🖥️ Interface & UX
+
+#### Graphical User Interface (GUI)
+Port the console UI to a proper windowed application using **Qt** or **wxWidgets**. Will preserve all backend logic — only the presentation layer changes.
+
+#### Receipt Generation
+After every transaction, generate a formatted `.txt` receipt file in the working directory with account number, transaction type, amount, and new balance.
+
+#### Configurable Themes
+Allow the console colour scheme and currency symbol to be set via a `config.ini` file — enabling localisation beyond Indian Rupees (e.g., USD, EUR, GBP).
+
+---
+
+### ⚡ Architecture
+
+#### SQLite Database Backend
+Replace the flat `titan_db.txt` file with an **SQLite** database for structured queries, indexing, and ACID-compliant transactions. Account lookups would move from linear scan to O(log n) indexed retrieval.
+
+#### Multi-Threading
+Introduce `std::thread` to allow concurrent transaction processing — simulating a real banking environment where multiple tellers operate simultaneously on the same ledger.
+
+#### Client-Server Networking
+Separate the system into a **server process** (holds the database and processes requests) and a **client terminal** (handles user I/O). Communication via TCP sockets using Winsock or POSIX sockets.
+
+#### Blockchain-Style Audit Ledger
+Implement an append-only transaction log where each entry contains a hash of the previous entry — making the audit trail tamper-evident and verifiable without a central authority.
 
 ---
 
 ## 📁 Project Structure
 
 ```
-SIMPLE BANK/
-├── Titan_Banking_Suite.cpp      # Main program (Core logic)
-├── TITAN_BANKING_SUITE.exe      # Compiled executable
-├── titan_db.txt                 # Persistent database (auto-created)
-├── README.md                     # Project documentation (THIS FILE)
-├── else/                         # Additional resources folder
+TITAN BANKING SUITE/
+├── Titan_Banking_Suite.cpp      # Core source — all logic lives here
+├── TITAN_BANKING_SUITE.exe      # Compiled Windows executable
+├── titan_db.txt                 # Auto-generated persistent database
+├── README.md                    # This file
 └── .vscode/
     └── launch.json              # VS Code debug configuration
 ```
 
 ---
 
-## 🐛 Known Limitations & Future Enhancements
+## 🏗️ OOP Concepts Coverage
 
-### Current Limitations
-- ⚠️ Windows-specific (`<conio.h>` not standard on Linux/Mac)
-- ⚠️ Console-only UI (no graphical interface)
-- ⚠️ Single-threaded execution (sequential transactions)
-- ⚠️ Fixed 100-account capacity
-
-### Planned Enhancements
-- 🚀 **Cross-Platform Support**: Replace `<conio.h>` with platform-agnostic alternatives
-- 🚀 **Database Upgrade**: Migrate from file-based to SQLite/PostgreSQL
-- 🚀 **GUI Implementation**: Qt/wxWidgets graphical interface
-- 🚀 **Multi-Threading**: Concurrent transaction processing
-- 🚀 **Network Integration**: Client-server banking model
-- 🚀 **Blockchain Integration**: Immutable transaction ledger
+| Concept | Status | Where Used |
+|---|---|---|
+| Classes & Objects | ✅ Implemented | `BankAccount` class — full lifecycle |
+| Encapsulation | ✅ Implemented | `private` balance, PIN, accountHolder |
+| Data Abstraction | ✅ Implemented | `getMaskedPin()`, `formatCurrency()`, `saveDatabase()` |
+| Array of Objects | ✅ Implemented | `accounts[100]` — in-memory database |
+| File Handling | ✅ Implemented | `fstream` read/write via `saveDatabase()` / `loadDatabase()` |
+| Input Validation | ✅ Implemented | `getValidInt()`, `getValidDouble()` wrappers |
+| Inheritance | 🔮 Planned | `SavingsAccount`, `CurrentAccount` subclasses |
+| Polymorphism | 🔮 Planned | Virtual `processTransaction()` override per account type |
 
 ---
 
 ## 👥 Team & Credits
 
-### Project Leadership
-**👨‍💼 Developer & Project Lead:** Harsh Kumar  
-**Role:** College Presentation Lead  
-**Institution:** IILM University
+| Role | Name |
+|---|---|
+| **Developer & Project Lead** | Harsh Kumar |
+| **Developer** | Govind Rao |
+| **Developer** | Ritik Patel |
 
-### Project Designation
-**📚 Academic Institution:** IILM University (PGDM)  
-**🎓 Course:** Object-Oriented Programming (C++)  
-**📝 Project Type:** Comprehensive College Presentation Project  
-**🏆 Academic Role:** Secretary, E-Cell
-
-### Advisors & Mentors
-- Faculty Advisor: Computer Science Department, IILM
-- Project Mentor: Senior Software Engineering Team
+**Institution:** IILM University, Greater Noida  
+**Course:** Object-Oriented Programming with C++  
+**Academic Role (Harsh Kumar):** Secretary, E-Cell  
 
 ### Acknowledgments
-- 🙏 IILM University for providing the platform and guidance
-- 🙏 Open-source C++ community for tools and libraries
-- 🙏 Classmates for collaborative feedback and testing
+- IILM University Computer Science Department for guidance and infrastructure
+- The open-source C++ and MinGW communities for tooling
+- Classmates and peers for testing and feedback
 
 ---
 
 ## 📜 License & Usage
 
-This project is provided for **educational purposes** as part of the IILM University curriculum. 
+This project is released for **educational purposes**.
 
-- ✅ **Allowed**: Academic use, learning, modification for educational purposes
-- ❌ **Prohibited**: Commercial redistribution without permission
-- 📋 **Citation**: Please credit the original author and project
+- ✅ **Permitted:** Academic use, learning, modification, and extension
+- ❌ **Prohibited:** Commercial redistribution without explicit permission
+- 📋 **Attribution:** Credit the original authors and project if you build on it
 
 ---
 
-## 📞 Support & Questions
+## 📞 Contact
 
-For issues, questions, or suggestions:
-- 📧 **Email**: [Your Email]
-- 💬 **Forum**: IILM University Discussion Board
-- 🐛 **Bug Reports**: Document detailed steps to reproduce
+For questions, issues, or collaboration:
+- 📧 **Email:** [harshhjhha@gmail.com]
+- 🐛 **Bug Reports:** Document the exact steps to reproduce with input values and expected vs. actual output
 
 ---
 
 ```
 ╔═══════════════════════════════════════════════════════╗
 ║                                                       ║
-║   TITAN BANKING SUITE - Enterprise Banking Solution  ║
-║   Bridging Academic Theory with Production Practice  ║
+║   TITAN BANKING SUITE — Enterprise Banking Solution  ║
+║   Persistent. Secure. Always On.                     ║
 ║                                                       ║
-║              Built with 💻 and 🎓 Care              ║
+║              Built with C++ and Precision            ║
 ║                                                       ║
 ║                    v1.0.4 (2026)                      ║
 ║                                                       ║
@@ -517,5 +466,5 @@ For issues, questions, or suggestions:
 ---
 
 **Last Updated:** April 2026  
-**Repository:** TITAN Banking Suite - OOPS Project  
-**Status:** ✅ Production Ready for Educational Use
+**Status:** ✅ Active — v2.0 in planning
+**Made By:** github.com/hix-001
